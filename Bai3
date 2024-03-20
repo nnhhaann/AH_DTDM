@@ -1,0 +1,35 @@
+from anvil import *
+import anvil.server
+
+# Thiết lập kết nối tới server Anvil
+anvil.server.connect("YOUR_ANVIL_APP_KEY")
+
+# Hàm sắp xếp mảng bằng thuật toán Insertion Sort
+def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+
+# Ứng dụng Form
+class MainForm(Form1):
+    def __init__(self, **properties):
+        # Khởi tạo Form
+        self.init_components(**properties)
+    
+    # Sự kiện khi nhấn nút Sắp Xếp
+    def button_sort_click(self, **event_args):
+        # Lấy dãy số từ ô nhập liệu
+        numbers = [int(x) for x in self.text_box_numbers.text.split()]
+        
+        # Sắp xếp dãy số
+        insertion_sort(numbers)
+        
+        # Hiển thị kết quả sắp xếp
+        self.label_sorted_numbers.text = "Dãy số đã sắp xếp: " + " ".join(map(str, numbers))
+
+# Kết nối server
+anvil.server.wait_forever()
